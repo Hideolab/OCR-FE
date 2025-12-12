@@ -3,7 +3,7 @@
     <div class="flex h-14 items-center justify-between px-8">
       <button 
         @click="$emit('back')"
-        class="flex items-center gap-2 text-sm text-muted transition-colors hover:text-white"
+        class="flex items-center gap-2 text-sm text-gray-250 transition-colors hover:text-white"
       >
         <v-icon icon="mdi-arrow-left" size="20" aria-hidden="true" />
         <span>Back</span>
@@ -14,7 +14,7 @@
       </h2>
       
       <button @click="$emit('close')" class="flex items-center justify-center w-8 h-8 rounded-md 
-        text-muted transition-colors hover:text-white hover:bg-card-opacity">
+        text-gray-250 transition-colors hover:text-white hover:bg-primary-175">
         <v-icon icon="mdi-close" size="20" aria-hidden="true" />
       </button>
     </div>
@@ -22,33 +22,34 @@
     <v-divider color="white"/>
 
     <div class="flex-1 flex flex-col items-center justify-center px-8 py-12">
-      <v-progress-circular :size="64" :width="4" color="primary" indeterminate
-        class="mb-6" />
+      <div class="mb-6 bg-secondary-300 rounded-full p-6 border-4 border-secondary-300 opacity-95 flex items-center justify-center">
+        <v-progress-circular :size="45" :width="3" color="light-blue" indeterminate />
+      </div>
 
       <h3 class="text-xl font-semibold text-white mb-2">
         {{ loadingMessage }}
       </h3>
       
-      <p class="text-sm text-muted mb-8 text-center max-w-sm">
+      <p class="text-sm text-gray-250 mb-8 text-center max-w-sm">
         Please wait while we process your document. This may take a few moments.
       </p>
 
       <div class="w-full max-w-sm px-6 space-y-2">
         <div class="flex items-center justify-between">
-          <span class="text-sm text-muted">Progress</span>
+          <span class="text-sm text-gray-250">Progress</span>
           <span class="text-sm font-medium text-white">{{ Math.round(progress) }}%</span>
         </div>
-        <div class="w-full h-2 bg-card rounded-full overflow-hidden">
+        <div class="w-full h-2 bg-primary-100 rounded-full overflow-hidden">
           <div 
-            class="h-full bg-accent transition-all duration-300 rounded-full"
+            class="h-full bg-light-blue transition-all duration-300 rounded-full"
             :style="{ width: `${progress}%` }"
           ></div>
         </div>
       </div>
     </div>
 
-    <div class="py-4 px-8 border-t border-border">
-      <p class="text-xs text-center text-muted">
+    <div class="py-4 px-8 border-t border-light-gray">
+      <p class="text-xs text-center text-gray-250">
         Task ID: {{ taskId }}
       </p>
     </div>

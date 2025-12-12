@@ -2,6 +2,7 @@ $body-font: 'Inter', sans-serif;
 
 @use "vuetify/settings" with (
   $body-font-family: $body-font,
+  $utilities: false,
 );
 
 @forward "vuetify/styles";

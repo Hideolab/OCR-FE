@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-[12px] border border-border p-6 shadow-sm bg-card-opacity1">
+  <div class="rounded-md border border-light-gray p-6 shadow-sm bg-primary-150">
 
     <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" 
       ref="fileInput" @change="handleFileSelect"/>
@@ -12,7 +12,7 @@
       </div>
       <div class="text-center">
         <p class="font-medium text-white">{{ selectedFile.name }}</p>
-        <p class="text-sm text-muted">{{ getFileType(selectedFile.name) }} • {{ formatFileSize(selectedFile.size) }}</p>
+        <p class="text-sm text-gray-250">{{ getFileType(selectedFile.name) }} • {{ formatFileSize(selectedFile.size) }}</p>
       </div>
       <button @click.stop="$emit('remove-file')" class="h-9 rounded-md px-3 absolute right-2 top-2 text-gray-400">
         <v-icon icon="mdi-close" size="16" color="white" aria-hidden="true" />
@@ -20,13 +20,13 @@
     </div>
 
     <div v-else @click="fileInput?.click()" class="relative cursor-pointer rounded-lg border-2 border-dashed flex flex-col 
-      items-center justify-center gap-3 p-8 hover:border-blue-500/50 hover:opacity-80 border-border">
+      items-center justify-center gap-3 p-8 hover:border-blue-500/50 hover:opacity-80 border-light-gray">
       
-      <v-icon icon="mdi-tray-arrow-up" size="24" class="text-muted bg-secondary rounded-full p-6" aria-hidden="true" />
+      <v-icon icon="mdi-tray-arrow-up" size="24" class="text-gray-250 bg-secondary rounded-full p-6" aria-hidden="true" />
 
       <div class="text-center">
         <p class="font-medium text-white">Drop your file here or click to browse</p>
-        <p class="text-sm text-muted">Accepts PDF, JPEG, PNG</p>
+        <p class="text-sm text-gray-250">Accepts PDF, JPEG, PNG</p>
       </div>
     </div>
 
@@ -34,9 +34,9 @@
       <div>
         <label class="text-sm font-medium leading-none text-white" for="ocr-mode">OCR Mode</label>
         <v-select :model-value="ocrMode" @update:model-value="$emit('update:ocrMode', $event)"
-          :items="ocrModes" item-title="text" item-value="value" variant="outlined" item-color="card"
-          density="compact" bg-color="background" color="border" rounded="lg" hide-details id="ocr-mode"
-          :list-props="{ bgColor: 'card' }">
+          :items="ocrModes" item-title="text" item-value="value" variant="outlined" item-color="white"
+          density="compact" bg-color="primary" color="light-gray" rounded="lg" hide-details id="ocr-mode"
+          :list-props="{ bgColor: 'primary-150' }" class="my-2">
           <template v-slot:item="{ props, item }">
             <v-list-item v-bind="props">
               <template v-slot:prepend>
@@ -47,27 +47,27 @@
             </v-list-item>
           </template>
         </v-select>
-        <p class="text-[12px] text-muted">Different OCR models for various document types.</p>
+        <p class="text-[12px] text-gray-250">Different OCR models for various document types.</p>
       </div>
-      <div class="space-y-2">
+      <div>
         <label class="text-sm font-medium leading-none text-white" for="filename">Filename (optional)</label>
         <v-text-field :model-value="filename" @update:model-value="$emit('update:filename', $event)"
-          variant="outlined" density="compact" placeholder="custom-name.pdf" bg-color="background"
-          color="border" rounded="lg" hide-details id="filename" />
-        <p class="text-[12px] text-muted">Will be echoed back in the result.</p>
+          variant="outlined" density="compact" placeholder="custom-name.pdf" bg-color="primary"
+          color="light-gray" rounded="lg" hide-details id="filename" class="my-2"/>
+        <p class="text-[12px] text-gray-250">Will be echoed back in the result.</p>
       </div>
     </div>
 
     <div class="mt-6 space-y-3">
-      <v-btn @click="$emit('send-to-ocr')" :disabled="!selectedFile" color="accent"  size="large" rounded="lg" block
+      <v-btn @click="$emit('send-to-ocr')" :disabled="!selectedFile" color="light-blue"  size="large" rounded="lg" block
         :class="['h-11 normal-case text-[14px]', !selectedFile && 'opacity-75']">
         <v-icon icon="mdi-file-upload-outline" size="16" class="mr-2" aria-hidden="true" />
         Send to OCR
       </v-btn>
-      <div v-if="currentTaskId && isLoading" class="text-sm text-muted text-center mt-2">
+      <div v-if="currentTaskId && isLoading" class="text-sm text-gray-250 text-center mt-2">
         Task created. ID: {{ currentTaskId }}
       </div>
-      <div class="text-sm text-muted text-center">Please select a file first.</div>
+      <div class="text-sm text-gray-250 text-center">Please select a file first.</div>
     </div>
   </div>
   
