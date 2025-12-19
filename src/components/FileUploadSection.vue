@@ -109,10 +109,10 @@ const formatFileSize = (bytes) => {
       <div class="tw:flex-1">
         <label class="tw:text-sm tw:font-medium tw:leading-none tw:text-white" for="ocr-mode">OCR Mode</label>
         <v-select :model-value="ocrMode" @update:model-value="$emit('update:ocrMode', $event)" :items="ocrModes"
-          color="blue" base-color="transparent" variant="outlined" item-title="text" item-value="value"
+          base-color="transparent" variant="solo-flat" item-title="text" item-value="value"
           item-color="white" density="compact" :focused="false" bg-color="background" rounded="lg"
           hide-details id="ocr-mode" :list-props="{ bgColor: 'primary-150' }"
-          class="tw:my-2 tw:border tw:border-light-gray tw:rounded-lg">
+          class="tw:my-2 tw:border tw:border-light-gray tw:rounded-lg tw:overflow-hidden">
           <template v-slot:item="{ props, item }">
             <v-list-item v-bind="props">
               <template v-slot:prepend>
@@ -128,10 +128,10 @@ const formatFileSize = (bytes) => {
 
       <div class="tw:flex-1">
         <label class="tw:text-sm tw:font-medium tw:leading-none tw:text-white" for="filename">Filename (optional)</label>
-        <v-text-field :model-value="filename" @update:model-value="$emit('update:filename', $event)" variant="outlined"
-          active-color="transparent" base-color="transparent" color="blue" rounded="lg" hide-details id="filename"
-          density="compact" placeholder="custom-name.pdf" bg-color="background" :focused="false" autocomplete="off"
-          class="tw:my-2 tw:border tw:border-light-gray tw:rounded-lg" />
+        <v-text-field :model-value="filename" @update:model-value="$emit('update:filename', $event)" variant="solo-flat"
+          active-color="transparent" base-color="light-gray" rounded="lg" hide-details id="filename"
+          density="compact" placeholder="custom-name.pdf" bg-color="background" autocomplete="off"
+          class="tw:my-2 tw:border tw:border-light-gray tw:rounded-lg tw:overflow-hidden" />
         <p class="tw:text-[12px] tw:text-gray-250">Will be echoed back in the result.</p>
       </div>
     </div>
