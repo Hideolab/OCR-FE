@@ -1,8 +1,13 @@
-@import "tailwindcss";
+@import "tailwindcss" prefix(tw);
 @import '@mdi/font/css/materialdesignicons.css';
 
 @config '../../tailwind.config.js';
 
 body {
   font-family: 'Inter', sans-serif;
+}
+
+/* Remove hover background from footer button */
+.v-footer .v-btn:hover::before {
+  opacity: 0 !important;
 }

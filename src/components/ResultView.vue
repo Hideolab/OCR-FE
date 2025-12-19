@@ -1,114 +1,95 @@
-<template>
-  <div class="fixed inset-0 z-[100] bg-primary flex flex-col">
-    <div class="flex items-center justify-between px-4 border-b border-light-gray py-3">
-      <button @click="$emit('back')" class="flex items-center gap-2 text-[14px] text-white px-3">
-        <v-icon icon="mdi-arrow-left" color="white" size="16" aria-hidden="true" />
-        <span>Back</span>
-      </button>
-      
-      <h2 class="text-base font-medium text-white truncate text-center">
-        {{ filename }}
-      </h2>
-      
-      <button @click="$emit('close')" class="flex items-center justify-center w-8 h-8 rounded-md text-gray-250 transition-colors hover:text-white hover:bg-primary-100">
-        <v-icon icon="mdi-close" size="16" color="white" aria-hidden="true" />
-      </button>
-    </div>
-
-    <v-divider color="white" />
-    
-    <div class="py-3 bg-secondary-300 w-full">
-      <div class="flex items-center justify-center gap-1">
-        <v-icon icon="mdi-check-circle-outline" size="20" color="primary" aria-hidden="true" />
-        <span class="font-medium text-light-blue">Document processed successfully</span>
-        <span class="text-sm text-gray-250">• {{ pageCount }} pages</span>
-      </div>
-    </div>
-
-    <v-divider color="white" />
-
-    <div class="flex items-center gap-2 py-3 px-4 justify-between">
-      <label class="flex items-center gap-2 cursor-pointer">
-        <input type="checkbox" v-model="wrapLines" class="sr-only" />
-        <div class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-             :class="wrapLines ? 'bg-light-blue' : 'bg-light-gray'">
-          <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
-                :class="wrapLines ? 'translate-x-6' : 'translate-x-1'"></span>
-        </div>
-        <v-icon icon="mdi-wrap" color="gray-250" size="16" aria-hidden="true" />
-        <span class="text-sm text-gray-250">Wrap lines</span>
-      </label>
-
-      <div class="flex items-center gap-2">
-        <button @click="handleCopy" class="flex items-center gap-1 px-3 text-white transition-colors hover:text-gray-250 rounded-md hover:bg-secondary">
-          <v-icon icon="mdi-content-copy" color="white" size="16" aria-hidden="true" />
-          <span class="text-sm">Copy</span>
-        </button>
-        <button @click="handleDownload" class="flex items-center gap-1 px-3 text-white transition-colors hover:text-gray-250 rounded-md hover:bg-secondary">
-          <v-icon icon="mdi-download" color="white" size="16" aria-hidden="true" />
-          <span class="text-sm">Download</span>
-        </button>
-      </div>
-    </div>
-
-    <v-divider color="white" />
-
-    <div class="flex-1 overflow-auto p-4">
-      <div class="bg-secondary mx-auto p-4 rounded-lg">
-        <div class="prose prose-invert font-mono h-full">
-          <h1 class="text-2xl font-bold text-white mb-4">Document Analysis Report</h1>
-          <div class="text-gray-250">
-            <p class="mb-4">Document: <span class="text-white font-medium">{{ filename }}</span></p>
-            <p class="text-sm">Document processed successfully. Content will be displayed here once OCR processing is implemented.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <v-divider color="white" />
-
-    <div class="p-4 border-t border-light-gray">
-      <v-btn @click="$emit('done')" color="light-blue" size="large" rounded="lg" block class="h-11 normal-case text-[14px]">
-        Done
-      </v-btn>
-    </div>
-  </div>
-</template>
-
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 defineProps({
-  filename: {
-    type: String,
-    required: true
-  },
-  pageCount: {
-    type: Number,
-    default: 1
-  }
-})
+  filename: { type: String, required: true },
+  pageCount: { type: Number, default: 1 },
+});
 
-defineEmits(['back', 'close', 'done'])
+defineEmits(["back", "close", "done"]);
 
-const wrapLines = ref(true)
+const wrapLines = ref(true);
+
+const handleCopy = () => console.log("Copy clicked");
+const handleDownload = () => console.log("Download clicked");
 
 </script>
 
-<style scoped>
-.prose {
-  color: rgb(129, 136, 152);
-}
+<template>
 
-.prose h1 {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
+  <v-dialog :model-value="true" fullscreen persistent scrim="background" transition="dialog-bottom-transition">
 
-.prose p {
-  margin-bottom: 0.5rem;
-}
-</style>
+    <div class="tw:bg-background tw:flex tw:flex-col tw:h-full">
+      <v-toolbar color="background" height="64" flat class="tw:border-b tw:border-light-gray tw:px-4">
+        <div class="tw:flex tw:items-center tw:justify-between tw:w-full">
+          <v-btn @click="$emit('back')" variant="text" size="small"
+            class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+            <v-icon icon="mdi-arrow-left" size="16" class="tw:mr-2" />
+            <span class="tw:text-sm">Back</span>
+          </v-btn>
 
+          <h2 class="tw:text-base tw:font-medium tw:text-white tw:truncate">
+            {{ filename }}
+          </h2>
+
+          <v-btn @click="$emit('close')" icon="mdi-close" size="small" variant="text" class="tw:text-white tw:p-0 tw:mr-2 hover:tw:bg-secondary tw:rounded-lg"/>
+        </div>
+      </v-toolbar>
+
+      <div class="tw:py-3 tw:bg-secondary-300 tw:w-full tw:border-b tw:border-light-gray">
+        <div class="tw:flex tw:items-center tw:justify-center tw:gap-2">
+          <v-icon icon="mdi-check-circle-outline" size="20" color="primary" />
+          <span class="tw:font-medium tw:text-primary">Document processed successfully</span>
+          <span class="tw:text-[14px] tw:text-gray-250">• {{ pageCount }} pages</span>
+        </div>
+      </div>
+
+      <div class="tw:flex tw:items-center tw:py-2 tw:px-4 tw:justify-between tw:bg-background tw:border-b tw:border-light-gray">
+        <div class="tw:flex tw:items-center tw:gap-2">
+          <v-switch v-model="wrapLines" color="primary" hide-details density="compact" class="tw:ml-2"></v-switch>
+          <div class="tw:flex tw:items-center tw:gap-2 tw:ml-1">
+            <v-icon icon="mdi-wrap" color="gray-400" size="16" />
+            <span class="tw:text-xs tw:font-medium tw:text-gray-250">Wrap lines</span>
+          </div>
+        </div>
+
+        <div class="tw:flex tw:items-center tw:gap-2 tw:mr-2">
+          <v-btn @click="handleCopy" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+            <v-icon icon="mdi-content-copy" size="16" class="tw:mr-1" />
+            <span class="tw:text-sm">Copy</span>
+          </v-btn>
+
+          <v-btn @click="handleDownload" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+            <v-icon icon="mdi-download" size="16" class="tw:mr-1" />
+            <span class="tw:text-sm">Download</span>
+          </v-btn>
+        </div>
+      </div>
+
+      <main class="tw:overflow-auto tw:bg-background tw:p-6">
+        <v-card class="tw:bg-secondary tw:mx-auto tw:min-h-full tw:p-8 tw:rounded-lg tw:border tw:border-light-gray" elevation="0">
+          <div class="tw:prose tw:prose-invert tw:max-w-none tw:font-mono">
+            <h1 class="tw:text-2xl tw:font-bold tw:text-white tw:mb-4">
+              Document Analysis Report
+            </h1>
+            <div class="tw:text-gray-250">
+              <p class="tw:mb-4">
+                Document:
+                <span class="tw:text-white tw:font-medium">{{ filename }}</span>
+              </p>
+            </div>
+          </div>
+        </v-card>
+      </main>
+
+      <footer class="tw:p-4 tw:bg-background tw:border-t tw:border-light-gray tw:mt-auto">
+        <v-btn @click="$emit('done')" color="primary" rounded="lg" block
+          class="tw:py-2 tw:font-medium tw:h-10 tw:text-sm tw:normal-case">
+          Done
+        </v-btn>
+      </footer>
+    </div>
+
+  </v-dialog>
+
+</template>

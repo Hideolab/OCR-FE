@@ -1,82 +1,8 @@
-<template>
-  <div class="rounded-md border border-light-gray p-6 shadow-sm bg-primary-150">
-
-    <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" 
-      ref="fileInput" @change="handleFileSelect"/>
-
-    <div v-if="selectedFile" @click="fileInput?.click()" class="relative cursor-pointer rounded-[12px] border-2 border-dashed 
-      flex flex-col items-center justify-center gap-3 p-8 hover:border-blue-500/50 
-      hover:opacity-80 border-green-500/50 bg-green-900/20">
-      <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-900/30">
-        <v-icon icon="mdi-check" size="24" class="text-green-400" aria-hidden="true" />
-      </div>
-      <div class="text-center">
-        <p class="font-medium text-white">{{ selectedFile.name }}</p>
-        <p class="text-sm text-gray-250">{{ getFileType(selectedFile.name) }} • {{ formatFileSize(selectedFile.size) }}</p>
-      </div>
-      <button @click.stop="$emit('remove-file')" class="h-9 rounded-md px-3 absolute right-2 top-2 text-gray-400">
-        <v-icon icon="mdi-close" size="16" color="white" aria-hidden="true" />
-      </button>
-    </div>
-
-    <div v-else @click="fileInput?.click()" class="relative cursor-pointer rounded-lg border-2 border-dashed flex flex-col 
-      items-center justify-center gap-3 p-8 hover:border-blue-500/50 hover:opacity-80 border-light-gray">
-      
-      <v-icon icon="mdi-tray-arrow-up" size="24" class="text-gray-250 bg-secondary rounded-full p-6" aria-hidden="true" />
-
-      <div class="text-center">
-        <p class="font-medium text-white">Drop your file here or click to browse</p>
-        <p class="text-sm text-gray-250">Accepts PDF, JPEG, PNG</p>
-      </div>
-    </div>
-
-    <div class="mt-6 grid gap-4 sm:grid-cols-2">
-      <div>
-        <label class="text-sm font-medium leading-none text-white" for="ocr-mode">OCR Mode</label>
-        <v-select :model-value="ocrMode" @update:model-value="$emit('update:ocrMode', $event)"
-          :items="ocrModes" item-title="text" item-value="value" variant="outlined" item-color="white"
-          density="compact" bg-color="primary" color="light-gray" rounded="lg" hide-details id="ocr-mode"
-          :list-props="{ bgColor: 'primary-150' }" class="my-2">
-          <template v-slot:item="{ props, item }">
-            <v-list-item v-bind="props">
-              <template v-slot:prepend>
-                <div class="w-5 flex items-center justify-center">
-                  <v-icon v-if="item.raw.value === ocrMode" icon="mdi-check" size="14" class="text-white" />
-                </div>
-              </template>
-            </v-list-item>
-          </template>
-        </v-select>
-        <p class="text-[12px] text-gray-250">Different OCR models for various document types.</p>
-      </div>
-      <div>
-        <label class="text-sm font-medium leading-none text-white" for="filename">Filename (optional)</label>
-        <v-text-field :model-value="filename" @update:model-value="$emit('update:filename', $event)"
-          variant="outlined" density="compact" placeholder="custom-name.pdf" bg-color="primary"
-          color="light-gray" rounded="lg" hide-details id="filename" class="my-2"/>
-        <p class="text-[12px] text-gray-250">Will be echoed back in the result.</p>
-      </div>
-    </div>
-
-    <div class="mt-6 space-y-3">
-      <v-btn @click="$emit('send-to-ocr')" :disabled="!selectedFile" color="light-blue"  size="large" rounded="lg" block
-        :class="['h-11 normal-case text-[14px]', !selectedFile && 'opacity-75']">
-        <v-icon icon="mdi-file-upload-outline" size="16" class="mr-2" aria-hidden="true" />
-        Send to OCR
-      </v-btn>
-      <div v-if="currentTaskId && isLoading" class="text-sm text-gray-250 text-center mt-2">
-        Task created. ID: {{ currentTaskId }}
-      </div>
-      <div class="text-sm text-gray-250 text-center">Please select a file first.</div>
-    </div>
-  </div>
-  
-</template>
-
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue';
+import { VFileUpload } from 'vuetify/labs/VFileUpload';
 
-defineProps({
+const props = defineProps({
   selectedFile: {
     type: File,
     default: null
@@ -105,13 +31,27 @@ defineProps({
 
 const emit = defineEmits(['file-selected', 'remove-file', 'update:filename', 'update:ocrMode', 'send-to-ocr'])
 
-const fileInput = ref(null)
+const internalFile = ref(null)
 
-const handleFileSelect = (event) => {
-  const file = event.target.files[0]
+watch(() => props.selectedFile, (newValue) => {
+  if (!newValue) {
+    internalFile.value = null
+  }
+})
+
+const handleVuetifyFileChange = (files) => {
+  const file = Array.isArray(files) && files.length > 0 ? files[0] : (files || null)
   if (file) {
     emit('file-selected', file)
+  } else {
+    internalFile.value = null
+    emit('remove-file')
   }
+}
+
+const handleRemoveFile = () => {
+  internalFile.value = null
+  emit('remove-file')
 }
 
 const getFileType = (filename) => filename.split('.').pop().toUpperCase()
@@ -125,3 +65,88 @@ const formatFileSize = (bytes) => {
 }
 </script>
 
+<template>
+
+  <v-card class="tw:rounded-xl tw:border tw:border-light-gray tw:p-6 tw:shadow-sm tw:bg-primary-150" variant="flat" color="primary-150">
+
+    <v-card v-if="selectedFile" class="tw:relative tw:cursor-pointer tw:rounded-[12px] tw:border-2 tw:border-dashed 
+        tw:flex tw:flex-col tw:items-center tw:justify-center tw:gap-3 tw:p-8 hover:tw:border-blue-500/50 hover:tw:bg-primary-200
+         tw:border-green-500/50 tw:bg-green-500/10" variant="flat">
+      <div class="tw:flex tw:h-12 tw:w-12 tw:items-center tw:justify-center tw:rounded-full tw:bg-green-900/30">
+        <v-icon icon="mdi-check" size="24" class="text-success" aria-hidden="true" />
+      </div>
+      <div class="tw:text-center">
+        <p class="tw:font-medium tw:text-white">{{ selectedFile.name }}</p>
+        <p class="tw:text-sm tw:text-gray-250">{{ getFileType(selectedFile.name) }} • {{ formatFileSize(selectedFile.size) }}
+        </p>
+      </div>
+      <v-btn @click.stop="handleRemoveFile" icon="mdi-close" size="small" variant="text"
+        class="tw:text-white tw:p-0 hover:tw:bg-secondary tw:rounded-lg tw:absolute tw:right-2 tw:top-2" />
+    </v-card>
+
+    <div v-if="!selectedFile" class="tw:relative tw:rounded-xl tw:border-2 tw:border-dashed tw:border-light-gray tw:bg-primary-150 tw:transition-all tw:duration-300 
+            hover:tw:border-primary hover:tw:bg-primary-200
+            has-[.v-file-upload--dragging]:tw:border-pri has-[.v-file-upload--dragging]:tw:bg-primary-200">
+
+      <v-file-upload v-model="internalFile" :multiple="false" height="168" scrim="transparent" density="compact" 
+        variant="outlined" class="tw:rounded-xl tw:flex tw:flex-col tw:bg-transparent tw:gap-y-1 tw:border-none"
+        @update:model-value="handleVuetifyFileChange">
+        <template #icon>
+          <v-icon size="24" icon="mdi-tray-arrow-up" class="tw:text-gray-250 tw:bg-secondary tw:rounded-full tw:h-12 tw:w-12"></v-icon>
+        </template>
+
+        <template #title>
+          <span class="tw:text-base tw:font-medium">Drop your file here or click to browse</span>
+        </template>
+      </v-file-upload>
+
+      <div class="tw:absolute tw:bottom-6 tw:left-0 tw:right-0 tw:z-10 tw:pointer-events-none">
+        <p class="tw:text-[14px] tw:leading-none tw:text-gray-250 tw:text-center">Accepts PDF, JPEG, PNG</p>
+      </div>
+    </div>
+
+    <div class="tw:mt-6 tw:flex tw:gap-4">
+      <div class="tw:flex-1">
+        <label class="tw:text-sm tw:font-medium tw:leading-none tw:text-white" for="ocr-mode">OCR Mode</label>
+        <v-select :model-value="ocrMode" @update:model-value="$emit('update:ocrMode', $event)" :items="ocrModes"
+          color="blue" base-color="transparent" variant="outlined" item-title="text" item-value="value"
+          item-color="white" density="compact" :focused="false" bg-color="background" rounded="lg"
+          hide-details id="ocr-mode" :list-props="{ bgColor: 'primary-150' }"
+          class="tw:my-2 tw:border tw:border-light-gray tw:rounded-lg">
+          <template v-slot:item="{ props, item }">
+            <v-list-item v-bind="props">
+              <template v-slot:prepend>
+                <div class="tw:w-5 tw:flex tw:items-center tw:justify-center">
+                  <v-icon v-if="item.raw.value === ocrMode" icon="mdi-check" size="14" class="tw:text-white" />
+                </div>
+              </template>
+            </v-list-item>
+          </template>
+        </v-select>
+        <p class="tw:text-[12px] tw:text-gray-250">Different OCR models for various document types.</p>
+      </div>
+
+      <div class="tw:flex-1">
+        <label class="tw:text-sm tw:font-medium tw:leading-none tw:text-white" for="filename">Filename (optional)</label>
+        <v-text-field :model-value="filename" @update:model-value="$emit('update:filename', $event)" variant="outlined"
+          active-color="transparent" base-color="transparent" color="blue" rounded="lg" hide-details id="filename"
+          density="compact" placeholder="custom-name.pdf" bg-color="background" :focused="false" autocomplete="off"
+          class="tw:my-2 tw:border tw:border-light-gray tw:rounded-lg" />
+        <p class="tw:text-[12px] tw:text-gray-250">Will be echoed back in the result.</p>
+      </div>
+    </div>
+
+    <div class="tw:mt-6 tw:space-y-3">
+      <v-btn @click="$emit('send-to-ocr')" :disabled="!selectedFile" color="primary" size="large" rounded="lg" block
+        :class="['tw:h-11 tw:normal-case tw:text-[14px]', !selectedFile && 'tw:opacity-75']">
+        <v-icon icon="mdi-file-upload-outline" size="16" class="tw:mr-2" aria-hidden="true" />
+        Send to OCR
+      </v-btn>
+      <div v-if="currentTaskId && isLoading" class="tw:text-sm tw:text-gray-250 tw:text-center tw:mt-2">
+        Task created. ID: {{ currentTaskId }}
+      </div>
+      <div v-if="!selectedFile" class="tw:text-sm tw:text-gray-250 tw:text-center">Please select a file first.</div>
+    </div>
+  </v-card>
+
+</template>

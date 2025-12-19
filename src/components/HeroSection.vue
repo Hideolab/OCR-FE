@@ -1,21 +1,26 @@
 <template>
 
-  <section class="pb-8 pt-12 text-center md:pb-12 md:pt-16">
-    
-    <h1 class="mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl">
+  <v-container class="tw:pb-8 tw:pt-12 tw:text-center md:tw:pb-12 md:tw:pt-16 tw:max-w-6xl tw:mx-auto" fluid>
+
+    <h1 class="tw:mb-4 tw:text-3xl tw:font-bold tw:tracking-tight tw:text-white md:tw:text-4xl lg:tw:text-5xl">
       Convert PDFs and images to Markdown
     </h1>
-    <p class="mx-auto mb-6 max-w-2xl text-lg text-gray-250">
+
+    <p class="tw:mx-auto tw:mb-6 tw:max-w-2xl tw:text-lg tw:text-gray-250">
       Upload a PDF, JPEG, or PNG and see the OCR result rendered as Markdown.
     </p>
-    <div class="mx-auto flex max-w-3xl items-center justify-center gap-3 rounded-[12px] border border-light-gray px-4 py-3 text-sm text-gray-250 bg-primary-175">
-      <v-icon icon="mdi-arrow-down" size="16" color="gray-250"/>
-      <p class="text-left">
-        <span class="font-medium text-white">Async processing:</span> Your file is sent to our backend, which calls the OCR API and returns a task ID. The UI polls until the result is ready.
-      </p>
-    </div>
 
-  </section>
+    <v-card class="tw:mx-auto tw:flex tw:max-w-3xl tw:items-center tw:gap-3 tw:rounded-[12px] tw:border tw:border-light-gray 
+        tw:px-4 tw:py-3 tw:text-sm tw:text-gray-250 tw:bg-primary-175" elevation="0">
 
+      <v-icon icon="mdi-arrow-down" size="16" class="tw:mt-0.5" color="gray-250" />
+
+      <v-card-text class="tw:text-left tw:p-0">
+        <span class="tw:font-medium tw:text-white">Async processing:</span>
+        Your file is sent to our backend, which calls the OCR API and returns a task ID.
+        The UI polls until the result is ready.
+      </v-card-text>
+    </v-card>
+
+  </v-container>
 </template>
-

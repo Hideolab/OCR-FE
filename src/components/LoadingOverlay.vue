@@ -1,61 +1,3 @@
-<template>
-  <div class="fixed inset-0 z-[100] bg-primary flex flex-col">
-    <div class="flex h-14 items-center justify-between px-8">
-      <button 
-        @click="$emit('back')"
-        class="flex items-center gap-2 text-sm text-gray-250 transition-colors hover:text-white"
-      >
-        <v-icon icon="mdi-arrow-left" size="20" aria-hidden="true" />
-        <span>Back</span>
-      </button>
-      
-      <h2 class="text-sm font-medium text-white truncate max-w-sm text-center">
-        {{ filename }}
-      </h2>
-      
-      <button @click="$emit('close')" class="flex items-center justify-center w-8 h-8 rounded-md 
-        text-gray-250 transition-colors hover:text-white hover:bg-primary-175">
-        <v-icon icon="mdi-close" size="20" aria-hidden="true" />
-      </button>
-    </div>
-
-    <v-divider color="white"/>
-
-    <div class="flex-1 flex flex-col items-center justify-center px-8 py-12">
-      <div class="mb-6 bg-secondary-300 rounded-full p-6 border-4 border-secondary-300 opacity-95 flex items-center justify-center">
-        <v-progress-circular :size="45" :width="3" color="light-blue" indeterminate />
-      </div>
-
-      <h3 class="text-xl font-semibold text-white mb-2">
-        {{ loadingMessage }}
-      </h3>
-      
-      <p class="text-sm text-gray-250 mb-8 text-center max-w-sm">
-        Please wait while we process your document. This may take a few moments.
-      </p>
-
-      <div class="w-full max-w-sm px-6 space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-250">Progress</span>
-          <span class="text-sm font-medium text-white">{{ Math.round(progress) }}%</span>
-        </div>
-        <div class="w-full h-2 bg-primary-100 rounded-full overflow-hidden">
-          <div 
-            class="h-full bg-light-blue transition-all duration-300 rounded-full"
-            :style="{ width: `${progress}%` }"
-          ></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="py-4 px-8 border-t border-light-gray">
-      <p class="text-xs text-center text-gray-250">
-        Task ID: {{ taskId }}
-      </p>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { computed } from 'vue'
 
@@ -77,15 +19,62 @@ const props = defineProps({
 defineEmits(['back', 'close'])
 
 const loadingMessage = computed(() => {
-  if (props.progress < 25) {
-    return 'Uploading file...'
-  } else if (props.progress < 50) {
-    return 'Task created, initializing...'
-  } else if (props.progress < 75) {
-    return 'Connecting to OCR service...'
-  } else {
-    return 'Processing document...'
-  }
+  if (props.progress < 25) return 'Uploading file...'
+  if (props.progress < 50) return 'Task created, initializing...'
+  if (props.progress < 75) return 'Connecting to OCR service...'
+  return 'Processing document...'
 })
 </script>
 
+<template>
+
+  <v-dialog :model-value="true" fullscreen persistent scrim="background" transition="dialog-bottom-transition">
+    
+    <div class="tw:bg-background tw:flex tw:flex-col tw:h-full tw:w-full">
+
+      <v-toolbar color="background" height="65" flat class="tw:border-b tw:border-light-gray tw:px-2">
+        <div class="tw:flex tw:items-center tw:justify-between tw:w-full">
+
+          <v-btn @click="$emit('back')" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+            <v-icon icon="mdi-arrow-left" size="16" class="tw:mr-2" />
+            <span class="tw:text-sm">Back</span>
+          </v-btn>
+
+          <h2 class="tw:text-base tw:font-medium tw:text-white tw:truncate tw:max-w-[200px] md:tw:max-w-sm tw:text-center">
+            {{ filename }}
+          </h2>
+
+          <v-btn @click="$emit('close')" icon="mdi-close" size="small" variant="text"
+            class="tw:text-white tw:p-0 tw:mr-2 hover:tw:bg-secondary tw:rounded-lg" />
+        </div>
+      </v-toolbar>
+
+      <div class="tw:flex-1 tw:flex tw:flex-col tw:items-center tw:justify-center tw:px-8 tw:py-12">
+        <div class="tw:mb-6 tw:bg-secondary-300 tw:rounded-full tw:p-6 tw:border-4 tw:border-secondary-300 tw:opacity-95 tw:flex tw:items-center tw:justify-center">
+          <v-progress-circular :size="45" :width="3" color="light-blue" indeterminate />
+        </div>
+
+        <h3 class="tw:text-xl tw:font-semibold tw:text-white tw:mb-2">
+          {{ loadingMessage }}
+        </h3>
+
+        <p class="tw:text-sm tw:text-gray-250 tw:mb-8 tw:text-center tw:max-w-sm">
+          Please wait while we process your document. This may take a few moments.
+        </p>
+
+        <div class="tw:w-full tw:max-w-sm tw:px-6 tw:space-y-2">
+          <div class="tw:flex tw:items-center tw:justify-between">
+            <span class="tw:text-sm tw:text-gray-250 tw:font-medium">Progress</span>
+            <span class="tw:text-sm tw:font-bold tw:text-white">{{ Math.round(progress) }}%</span>
+          </div>
+          <v-progress-linear :model-value="progress" color="primary" height="8" rounded class="tw:bg-surface" />
+          <p class="tw:text-xs tw:text-center tw:text-gray-250">
+            Task ID: <span class="tw:font-mono">{{ taskId }}</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </v-dialog>
+
+</template>

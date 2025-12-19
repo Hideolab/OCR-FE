@@ -1,67 +1,3 @@
-<template>
-
-  <v-app>
-
-    <div class="min-h-screen bg-primary flex flex-col">
-
-      <div class="max-w-8xl mx-auto px-8 w-full">
-
-        <AppHeader />
-
-        <v-main class="flex-1 py-8 p-0">
-            <HeroSection />
-
-            <div class="space-y-8 max-w-3xl mx-auto">
-              <FileUploadSection
-                :selected-file="selectedFile"
-                :filename="filename"
-                :ocr-mode="ocrMode"
-                :ocr-modes="ocrModes"
-                :current-task-id="currentTaskId"
-                :is-loading="isLoading"
-                @file-selected="handleFileSelect"
-                @remove-file="removeFile"
-                @update:filename="filename = $event"
-                @update:ocrMode="ocrMode = $event"
-                @send-to-ocr="sendToOCR"
-              />
-
-              <RecentJobs :jobs="recentJobs" @view-job="viewJob" />
-          
-            </div>
-
-        </v-main>
-
-        <v-divider color="white" class="w-screen relative left-1/2 -ml-[50vw]" />
-
-        <AppFooter/>
-
-      </div>
-
-    </div>
-
-    <LoadingOverlay
-      v-if="isLoading && !showResult"
-      :filename="selectedFile?.name || filename || 'Untitled'"
-      :progress="loadingProgress"
-      :taskId="currentTaskId"
-      @back="handleLoadingClose"
-      @close="handleLoadingClose"
-    />
-
-    <ResultView
-      v-if="showResult"
-      :filename="selectedFile?.name || filename || 'Untitled'"
-      :pageCount="3"
-      @back="handleResultClose"
-      @close="handleResultClose"
-      @done="handleResultClose"
-    />
-
-  </v-app>
-
-</template>
-
 <script setup>
 import { ref } from 'vue'
 import AppHeader from './components/AppHeader.vue'
@@ -148,3 +84,61 @@ const viewJob = (jobId) => {
 }
 
 </script>
+
+<template>
+
+  <v-app class="tw:min-h-screen tw:bg-background">
+
+      <AppHeader />
+
+      <v-main>
+
+        <div class="tw:py-8">
+          <HeroSection />
+        
+          <div class="tw:max-w-8xl tw:mx-auto tw:px-8 tw:w-full">
+            <div class="tw:space-y-8 tw:max-w-3xl tw:mx-auto">
+              <FileUploadSection
+                :selected-file="selectedFile"
+                :filename="filename"
+                :ocr-mode="ocrMode"
+                :ocr-modes="ocrModes"
+                :current-task-id="currentTaskId"
+                :is-loading="isLoading"
+                @file-selected="handleFileSelect"
+                @remove-file="removeFile"
+                @update:filename="filename = $event"
+                @update:ocrMode="ocrMode = $event"
+                @send-to-ocr="sendToOCR"
+              />
+
+              <RecentJobs :jobs="recentJobs" @view-job="viewJob" />
+            </div>
+          </div>
+          
+        </div>
+      </v-main>
+
+      <AppFooter/>
+
+    <LoadingOverlay
+      v-if="isLoading && !showResult"
+      :filename="selectedFile?.name || filename || 'Untitled'"
+      :progress="loadingProgress"
+      :taskId="currentTaskId"
+      @back="handleLoadingClose"
+      @close="handleLoadingClose"
+    />
+
+    <ResultView
+      v-if="showResult"
+      :filename="selectedFile?.name || filename || 'Untitled'"
+      :pageCount="3"
+      @back="handleResultClose"
+      @close="handleResultClose"
+      @done="handleResultClose"
+    />
+
+  </v-app>
+
+</template>
