@@ -23,7 +23,7 @@ const handleDownload = () => console.log("Download clicked");
       <v-toolbar color="background" height="64" flat class="tw:border-b tw:border-light-gray tw:px-4">
         <div class="tw:flex tw:items-center tw:justify-between tw:w-full">
           <v-btn @click="$emit('back')" variant="text" size="small"
-            class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+            class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 tw:hover:bg-secondary">
             <v-icon icon="mdi-arrow-left" size="16" class="tw:mr-2" />
             <span class="tw:text-sm">Back</span>
           </v-btn>
@@ -32,7 +32,7 @@ const handleDownload = () => console.log("Download clicked");
             {{ filename }}
           </h2>
 
-          <v-btn @click="$emit('close')" icon="mdi-close" size="small" variant="text" class="tw:text-white tw:p-0 tw:mr-2 hover:tw:bg-secondary tw:rounded-lg"/>
+          <v-btn @click="$emit('close')" icon="mdi-close" size="small" variant="text" class="tw:text-white tw:p-0 tw:mr-2 tw:hover:bg-secondary tw:rounded-lg"/>
         </div>
       </v-toolbar>
 
@@ -54,12 +54,12 @@ const handleDownload = () => console.log("Download clicked");
         </div>
 
         <div class="tw:flex tw:items-center tw:gap-2 tw:mr-2">
-          <v-btn @click="handleCopy" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+          <v-btn @click="handleCopy" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 tw:hover:bg-secondary">
             <v-icon icon="mdi-content-copy" size="16" class="tw:mr-1" />
             <span class="tw:text-sm">Copy</span>
           </v-btn>
 
-          <v-btn @click="handleDownload" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+          <v-btn @click="handleDownload" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 tw:hover:bg-secondary">
             <v-icon icon="mdi-download" size="16" class="tw:mr-1" />
             <span class="tw:text-sm">Download</span>
           </v-btn>

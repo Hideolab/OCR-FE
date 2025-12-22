@@ -35,7 +35,7 @@ const loadingMessage = computed(() => {
       <v-toolbar color="background" height="65" flat class="tw:border-b tw:border-light-gray tw:px-2">
         <div class="tw:flex tw:items-center tw:justify-between tw:w-full">
 
-          <v-btn @click="$emit('back')" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+          <v-btn @click="$emit('back')" variant="text" size="small" class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 tw:hover:bg-secondary">
             <v-icon icon="mdi-arrow-left" size="16" class="tw:mr-2" />
             <span class="tw:text-sm">Back</span>
           </v-btn>
@@ -45,7 +45,7 @@ const loadingMessage = computed(() => {
           </h2>
 
           <v-btn @click="$emit('close')" icon="mdi-close" size="small" variant="text"
-            class="tw:text-white tw:p-0 tw:mr-2 hover:tw:bg-secondary tw:rounded-lg" />
+            class="tw:text-white tw:p-0 tw:mr-2 tw:hover:bg-secondary tw:rounded-lg" />
         </div>
       </v-toolbar>
 

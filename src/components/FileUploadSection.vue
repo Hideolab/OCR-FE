@@ -70,7 +70,7 @@ const formatFileSize = (bytes) => {
   <v-card class="tw:rounded-xl tw:border tw:border-light-gray tw:p-6 tw:shadow-sm tw:bg-primary-150" variant="flat" color="primary-150">
 
     <v-card v-if="selectedFile" class="tw:relative tw:cursor-pointer tw:rounded-[12px] tw:border-2 tw:border-dashed 
-        tw:flex tw:flex-col tw:items-center tw:justify-center tw:gap-3 tw:p-8 hover:tw:border-blue-500/50 hover:tw:bg-primary-200
+        tw:flex tw:flex-col tw:items-center tw:justify-center tw:gap-3 tw:p-8 tw:hover:border-blue-500/50 tw:hover:bg-primary-200
          tw:border-green-500/50 tw:bg-green-500/10" variant="flat">
       <div class="tw:flex tw:h-12 tw:w-12 tw:items-center tw:justify-center tw:rounded-full tw:bg-green-900/30">
         <v-icon icon="mdi-check" size="24" class="text-success" aria-hidden="true" />
@@ -81,12 +81,12 @@ const formatFileSize = (bytes) => {
         </p>
       </div>
       <v-btn @click.stop="handleRemoveFile" icon="mdi-close" size="small" variant="text"
-        class="tw:text-white tw:p-0 hover:tw:bg-secondary tw:rounded-lg tw:absolute tw:right-2 tw:top-2" />
+        class="tw:text-white tw:p-0 tw:hover:bg-secondary tw:rounded-lg tw:absolute tw:right-2 tw:top-2" />
     </v-card>
 
     <div v-if="!selectedFile" class="tw:relative tw:rounded-xl tw:border-2 tw:border-dashed tw:border-light-gray tw:bg-primary-150 tw:transition-all tw:duration-300 
-            hover:tw:border-primary hover:tw:bg-primary-200
-            has-[.v-file-upload--dragging]:tw:border-pri has-[.v-file-upload--dragging]:tw:bg-primary-200">
+            tw:hover:border-primary tw:hover:bg-primary-200
+            tw:has-[.v-file-upload--dragging]:border-primary tw:has-[.v-file-upload--dragging]:bg-primary-200">
 
       <v-file-upload v-model="internalFile" :multiple="false" height="168" scrim="transparent" density="compact" 
         variant="outlined" class="tw:rounded-xl tw:flex tw:flex-col tw:bg-transparent tw:gap-y-1 tw:border-none"

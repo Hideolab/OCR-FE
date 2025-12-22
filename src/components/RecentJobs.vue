@@ -77,7 +77,7 @@ const formatDate = (date) => {
 
       <template v-slot:[`item.actions`]="{ item }">
         <v-btn @click="$emit('view-job', item.id)" variant="text" size="small"
-          class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 hover:tw:bg-secondary">
+          class="tw:text-white tw:normal-case tw:h-9 tw:px-0.5 tw:rounded-lg tw:gap-2 tw:hover:bg-secondary">
           <v-icon icon="mdi-eye" size="16" class="tw:mr-2" />
           View
         </v-btn>
