@@ -1,8 +1,8 @@
 <template>
 
-  <v-container class="tw:pb-8 tw:pt-12 tw:text-center md:tw:pb-12 md:tw:pt-16 tw:max-w-6xl tw:mx-auto" fluid>
+  <v-container class="tw:pb-8 tw:pt-12 tw:text-center tw:md:pb-12 tw:md:pt-16 tw:max-w-6xl tw:mx-auto" fluid>
 
-    <h1 class="tw:mb-4 tw:text-3xl tw:font-bold tw:tracking-tight tw:text-white md:tw:text-4xl lg:tw:text-5xl">
+    <h1 class="tw:mb-4 tw:text-3xl tw:font-bold tw:tracking-tight tw:text-white tw:md:text-4xl tw:lg:text-[48px]">
       Convert PDFs and images to Markdown
     </h1>
 

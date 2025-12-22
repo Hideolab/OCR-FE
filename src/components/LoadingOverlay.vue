@@ -40,7 +40,7 @@ const loadingMessage = computed(() => {
             <span class="tw:text-sm">Back</span>
           </v-btn>
 
-          <h2 class="tw:text-base tw:font-medium tw:text-white tw:truncate tw:max-w-[200px] md:tw:max-w-sm tw:text-center">
+          <h2 class="tw:text-base tw:font-medium tw:text-white tw:truncate tw:max-w-[200px] tw:md:max-w-sm tw:text-center">
             {{ filename }}
           </h2>
 
